@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { HiMenuAlt3 } from 'react-icons/hi';
 import { IconButton } from '@/components/Button';
+import { TbArrowNarrowRight } from 'react-icons/tb';
 
 const header_content = [
   {
@@ -47,7 +48,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-white border-b border-gray-200 text-sm py-0">
+      <header className="fixed flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-white border-b border-gray-200 text-sm py-0">
         <nav
           className="relative max-w-[100rem] flex basis-full items-center w-full mx-auto px-4 sm:items-center justify-between"
           aria-label="Global"
@@ -78,15 +79,16 @@ const Header = () => {
             <div className="flex items-center gap-x-3">
               <a
                 className="py-2 px-3 inline-flex justify-center items-center rounded-md font-semibold text-base text-gray-500 hover:text-blue-600 hover:bg-blue-50"
-                href="#"
+                href="/signin"
               >
                 Log in
               </a>
               <a
-                className="py-1.5 px-3 inline-flex justify-center items-center rounded-md border-2 border-blue-400 font-semibold text-blue-600 hover:bg-blue-50 hover:border-blue-100 outline-none transition-all text-base"
-                href="#"
+                className="group/hero-anchor transition-all ease-in-out py-2 px-3 max-w-[10em] inline-flex justify-center items-center gap-2 rounded-md border border-transparent hover:bg-white hover:text-brand hover:border-brand font-semibold text-slate-50 bg-brand outline-none"
+                href="/register"
               >
                 Get started
+                <TbArrowNarrowRight className="text-brand text-lg hidden group-hover/hero-anchor:flex transition-all group-hover/hero-anchor:transition-transform" />
               </a>
               <div className="order-3">
                 <IconButton
