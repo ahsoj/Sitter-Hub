@@ -1,0 +1,110 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Parent {
+  id          String     @id @default(uuid()) @map("_id") @db.ObjectId
+  firstName   String
+  lastName    String
+  phoneNumber String     @unique
+  email       String?
+  password    String
+  state       String
+  city        String
+  profilePic  String
+  gender      String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @default(now())
+  children    Child[]
+  feedback    Feedback[]
+}
+
+model Sitter {
+  id                  String     @id @default(uuid()) @map("_id") @db.ObjectId
+  firstName           String
+  lastName            String
+  gender              String
+  birthDate           DateTime
+  phoneNumber         String     @unique
+  email               String     @unique
+  password            String
+  state               State      @relation(fields: [stateId], references: [id])
+  stateId             String     @db.ObjectId
+  city                City       @relation(fields: [cityId], references: [id])
+  cityId              String     @db.ObjectId
+  educationBackground String
+  certificate         String
+  isVerifyed          Boolean
+  profilePic          String
+  createdAt           DateTime   @default(now())
+  updatedAt           DateTime   @default(now())
+  babies              Child[]
+  ratings             Rating[]
+  feedbacks           Feedback[]
+}
+
+model Child {
+  id           String  @id @default(uuid()) @map("_id") @db.ObjectId
+  firstName    String
+  lastName     String
+  gender       String
+  age          Int
+  healthStatus String
+  Parent       Parent? @relation(fields: [parentId], references: [id])
+  parentId     String? @db.ObjectId
+  Sitter       Sitter? @relation(fields: [sitterId], references: [id])
+  sitterId     String? @db.ObjectId
+}
+
+model State {
+  id        String   @id @default(uuid()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  cities    City[]
+  Sitter    Sitter[]
+}
+
+model City {
+  id        String   @id @default(uuid()) @map("_id") @db.ObjectId
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  State     State?   @relation(fields: [stateId], references: [id])
+  stateId   String?  @db.ObjectId
+  Sitter    Sitter[]
+}
+
+model Rating {
+  id        String   @id @default(uuid()) @map("_id") @db.ObjectId
+  rating    Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  Sitter    Sitter?  @relation(fields: [sitterId], references: [id])
+  sitterId  String?  @db.ObjectId
+}
+
+model Feedback {
+  id        String   @id @default(uuid()) @map("_id") @db.ObjectId
+  feedback  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  Sitter    Sitter?  @relation(fields: [sitterId], references: [id])
+  sitterId  String?  @db.ObjectId
+  Parent    Parent?  @relation(fields: [parentId], references: [id])
+  parentId  String?  @db.ObjectId
+}
+
+model Booking {
+  id        String   @id @default(uuid()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
