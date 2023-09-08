@@ -2,9 +2,9 @@ import { TbArrowNarrowRight } from 'react-icons/tb';
 
 export default function Home() {
   return (
-    <div className="bg-slate-400 relative h-fit isolate after:absolute after:z-10 after:inset-x-0 after:bottom-0 after:-mb-3 after:content-[url(/hero_wave.svg)]">
+    <div className="bg-slate-300 relative h-fit isolate after:absolute after:z-10 after:inset-x-0 after:bottom-0 after:-mb-3 after:content-[url(/hero_wave.svg)]">
       <header className="py-16 px-4 max-w-[90rem] w-full mx-auto flex flex-col lg:flex-row-reverse justify-center items-center text-start relative">
-        <div className="relative isolate after:absolute after:z-10 after:bg-gradient-to-t after:from-slate-400 after:inset-0">
+        <div className="relative lg:w-[60rem] justify-center isolate after:absolute after:z-10 after:bg-gradient-to-t after:from-slate-300 after:inset-0">
           <img
             className="w-fit block object-contain"
             src="/hero_image_transparent.png"
@@ -19,13 +19,13 @@ export default function Home() {
             </b>{' '}
             For Your Busy Life.
           </h1>
-          <p className="text-base text-zinc-600">
+          <p className="text-base text-zinc-600 text-justify">
             A babysitter app serves as a platform to connect parents in need of
             childcare services with qualified babysitters or caregivers.
           </p>
           <form>
             <div className="w-full max-w-lg">
-              <div className="flex items-center gap-2 flex-col bg-white sm:flex-row border rounded-lg border-slate-400 p-0.5 peer-focus/fin_active:border-indigo-500">
+              <div className="flex items-center gap-2 flex-col bg-white sm:flex-row border-2 rounded-lg border-brand p-0.5 peer-focus/fin_active:border-indigo-500">
                 <div className="w-full">
                   <label htmlFor="hero-input" className="sr-only">
                     Search
