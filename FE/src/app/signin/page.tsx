@@ -105,13 +105,20 @@ const SigninPage: React.FC = () => {
                           id="email"
                           name="email"
                           placeholder="name@example.com"
-                          className="py-3 px-4 block outline-none w-full border border-gray-200 rounded-md text-sm focus:border-sky-500 focus:ring-sky-500 "
+                          className={twmesh(
+                            'py-3 px-4 block w-full outline-none border border-gray-200 rounded-md text-sm focus:border-brand focus:ring-brand ',
+                            touched?.email &&
+                              errors.email &&
+                              'border-red-400 text-red-400'
+                          )}
                           required
                           aria-describedby="email-error"
                         />
                       </div>
                       {touched?.email && errors.email && (
-                        <div>{errors.email}</div>
+                        <div className="text-[12px] text-right text-red-500">
+                          {errors.email}
+                        </div>
                       )}
                     </div>
 
@@ -136,13 +143,20 @@ const SigninPage: React.FC = () => {
                           id="password"
                           name="password"
                           placeholder="************"
-                          className="py-3 px-4 block w-full outline-none border border-gray-200 rounded-md text-sm focus:border-sky-500 focus:ring-sky-500 "
+                          className={twmesh(
+                            'py-3 px-4 block w-full outline-none border border-gray-200 rounded-md text-sm focus:border-brand focus:ring-brand ',
+                            touched?.email &&
+                              errors.email &&
+                              'border-red-400 text-red-400'
+                          )}
                           required
                           aria-describedby="password-error"
                         />
                       </div>
-                      {touched?.email && errors.email && (
-                        <div>{errors.email}</div>
+                      {touched?.password && errors.password && (
+                        <div className="text-[12px] text-right text-red-500">
+                          {errors.password}
+                        </div>
                       )}
                     </div>
 

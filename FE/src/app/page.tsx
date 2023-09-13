@@ -1,9 +1,19 @@
+'use client';
 import { TbArrowNarrowRight } from 'react-icons/tb';
+import Form, { Field } from 'rc-field-form';
 
 export default function Home() {
+  const handleSearchQuery = () => {};
   return (
     <div className="bg-slate-300 relative h-fit isolate after:absolute after:z-10 after:inset-x-0 after:bottom-0 after:-mb-3 after:content-[url(/hero_wave.svg)]">
       <header className="py-16 px-4 max-w-[90rem] w-full mx-auto flex flex-col lg:flex-row-reverse justify-center items-center text-start relative">
+        {/* <div className="absolute top-0 right-0">
+          <img
+            src="/lottie/rainbow.gif"
+            className="-rotate-[140deg] w-48"
+            alt=""
+          />
+        </div> */}
         <div className="relative lg:w-[60rem] justify-center isolate after:absolute after:z-10 after:bg-gradient-to-t after:from-slate-300 after:inset-0">
           <img
             className="w-fit block object-contain"
@@ -23,27 +33,29 @@ export default function Home() {
             A babysitter app serves as a platform to connect parents in need of
             childcare services with qualified babysitters or caregivers.
           </p>
-          <form>
+          <Form onFinish={handleSearchQuery}>
             <div className="w-full max-w-lg">
               <div className="flex items-center gap-2 flex-col bg-white sm:flex-row border-2 rounded-lg border-brand p-0.5 peer-focus/fin_active:border-indigo-500">
                 <div className="w-full">
                   <label htmlFor="hero-input" className="sr-only">
                     Search
                   </label>
-                  <input
-                    type="text"
-                    id="hero-input"
-                    name="hero-input"
-                    className="peer/fin_active outline-none py-2 px-4 block w-full"
-                    placeholder="city or postal code"
-                  />
+                  <Field name="hero-input">
+                    <input
+                      type="text"
+                      id="hero-input"
+                      name="hero-input"
+                      className="peer/fin_active outline-none py-2 px-4 block w-full"
+                      placeholder="city or postal code"
+                    />
+                  </Field>
                 </div>
                 <button className="w-full sm:w-auto whitespace-nowrap inline-flex justify-center items-center gap-x-3 text-center bg-brand hover:bg-brand/[.8] border border-transparent text-white font-medium rounded-md outline-none transition py-2 px-4 ">
                   Find
                 </button>
               </div>
             </div>
-          </form>
+          </Form>
           <a
             className="group/hero-anchor transition-all ease-in-out py-2 px-3 max-w-[10em] inline-flex justify-center items-center gap-2 rounded-md border border-transparent hover:bg-white hover:text-brand hover:border-brand font-semibold text-slate-50 bg-brand outline-none"
             href="/register"

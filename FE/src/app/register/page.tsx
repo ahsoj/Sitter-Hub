@@ -97,6 +97,18 @@ const CreateAccount: React.FC<FormikProps<FormValues>> = (props) => {
               {({ errors, touched, isSubmitting }) => (
                 <Form>
                   <div className="grid gap-y-4">
+                    <label htmlFor="underline_select" className="sr-only">
+                      Continue as
+                    </label>
+                    <select
+                      id="underline_select"
+                      className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+                    >
+                      <option selected value="parent">
+                        Parent
+                      </option>
+                      <option value="sitter">Sitter</option>
+                    </select>
                     <div>
                       <label
                         htmlFor="Fname"
@@ -109,7 +121,7 @@ const CreateAccount: React.FC<FormikProps<FormValues>> = (props) => {
                           type="text"
                           id="Fname"
                           name="Fname"
-                          placeholder="john"
+                          placeholder="John"
                           className={twmesh(
                             'py-3 px-4 block w-full outline-none border border-gray-200 rounded-md text-sm focus:border-brand focus:ring-brand ',
                             touched?.Fname &&
@@ -121,7 +133,7 @@ const CreateAccount: React.FC<FormikProps<FormValues>> = (props) => {
                         />
                       </div>
                       {touched?.Fname && errors.Fname && (
-                        <div className="text-[12px] text-red-500">
+                        <div className="text-[12px] text-right text-red-500">
                           {errors.Fname}
                         </div>
                       )}
@@ -138,7 +150,7 @@ const CreateAccount: React.FC<FormikProps<FormValues>> = (props) => {
                           type="text"
                           id="Lname"
                           name="Lname"
-                          placeholder="john"
+                          placeholder="Doe"
                           className={twmesh(
                             'py-3 px-4 block w-full outline-none border border-gray-200 rounded-md text-sm focus:border-brand focus:ring-brand ',
                             touched?.Lname &&
@@ -150,7 +162,7 @@ const CreateAccount: React.FC<FormikProps<FormValues>> = (props) => {
                         />
                       </div>
                       {touched?.Lname && errors.Lname && (
-                        <div className="text-[12px] text-red-500">
+                        <div className="text-[12px] text-right text-red-500">
                           {errors.Lname}
                         </div>
                       )}
@@ -179,7 +191,7 @@ const CreateAccount: React.FC<FormikProps<FormValues>> = (props) => {
                         />
                       </div>
                       {touched?.email && errors.email && (
-                        <div className="text-[12px] text-red-500">
+                        <div className="text-[12px] text-right text-red-500">
                           {errors.email}
                         </div>
                       )}

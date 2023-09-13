@@ -17,7 +17,7 @@ const header_content = [
   },
   {
     label: 'How it works',
-    path: '/howitswork',
+    path: '/how-it-works',
   },
   {
     label: 'Pricing',
