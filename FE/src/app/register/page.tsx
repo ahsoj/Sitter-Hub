@@ -77,7 +77,7 @@ const CreateAccount: React.FC<FormikProps<FormValues>> = (props) => {
           </div>
 
           <div className="mt-5">
-            <button
+            {/* <button
               type="button"
               className="w-full my-3 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-brand transition-all text-sm"
             >
@@ -86,7 +86,7 @@ const CreateAccount: React.FC<FormikProps<FormValues>> = (props) => {
             </button>
             <div className="py-3 flex items-center text-xs text-gray-400 uppercase font-antonio before:flex-[1_1_0%] before:border-t before:border-gray-200 before:mr-6 font-black after:flex-[1_1_0%] after:border-t after:border-gray-200 after:ml-6 ">
               Or
-            </div>
+            </div> */}
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
