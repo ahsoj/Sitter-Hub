@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient()
 class ContractController { 
     //create a new contract to the database
-    async createProposal(data: {startDate: Date, proposalId: string}){
+    async createContract(data: {startDate: Date, proposalId: string}){
         const contract = await prisma.contract.create({
             data: {
                 startDate: data.startDate,
@@ -12,6 +12,20 @@ class ContractController {
             }
         });
         console.log(`contract created with id of ${contract.id}`)
+        return contract;
+    }
+
+    //update contract
+    async updateContract(data: {startDate: Date, proposalId: string}) {
+        const contract = await prisma.contract.update({
+            where: {
+                id: data.proposalId,
+            },
+            data: {
+                startDate: data.startDate,
+            }
+        });
+        return contract;
     }
 
     //get proposals on contract
@@ -22,6 +36,18 @@ class ContractController {
             }
         });
         return proposal;
+    }
+
+    //delete proposal on contract
+    async deleteContract(data: {
+        proposalId: string
+    }) {
+        await prisma.contract.delete({
+            where: {
+                proposalId: data.proposalId,
+            }
+        });
+        console.log("Contract deleted");
     }
 
 }

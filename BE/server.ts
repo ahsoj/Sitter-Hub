@@ -5,7 +5,7 @@ dotenv.config();
 const app: express.Application = express();
  
 // Take a port 3000 for running server.
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
  
 // Handling Request
 app.get('/', (_req, _res) => {

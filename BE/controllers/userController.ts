@@ -28,17 +28,15 @@ class UserController {
         }
       });
       if (!user) throw new Error('Invalid User');
-      await prisma.user.update({
-        where: {
-          id: user.id,
-        },
+      return await prisma.user.create({
         data: {
           firstName: user.firstName,
           lastName: user.lastName,
           phoneNumber: user.phoneNumber,
           email: user.email,
           isConfirmed: true,
-        },
+          passwordHash: ''
+        }
       });
     }
 

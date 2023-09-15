@@ -5,14 +5,13 @@ const prisma = new PrismaClient()
 class ProposalController {
     //create new proposal
     async createProposal(data: {
-        id: string,
-        coverLetter: string, 
         bookingId: string, 
         sitterId: string
+        coverLetter: string, 
+        
     }){
         const proposal = await prisma.proposal.create({
             data:{
-                id: data.id,
                 coverLetter: data.coverLetter,
                 bookingId: data.bookingId,
                 sitterId: data.sitterId
@@ -22,10 +21,15 @@ class ProposalController {
         return proposal;
     }
     //update Proposal
-    async updateProposal(data: {id: string, coverLetter:string, sitterId: string}) {
+    async updateProposal(data: {
+        sitterId: string 
+        bookingId: string,
+        coverLetter:string,
+        
+    }) {
         const proposal = await prisma.proposal.update({
             where :{
-                id: data.id,
+                id: data.bookingId,
                 Sitter:{
                     id: data.sitterId
                 }
@@ -37,6 +41,7 @@ class ProposalController {
         console.log(`proposal update with id of ${proposal.id}`);
         return proposal;
     }
+
     //get all proposal form the database
     async getAllProposal() {
         const proposals = await prisma.proposal.findMany({
@@ -47,6 +52,7 @@ class ProposalController {
         });
         return proposals;
     }
+    
     //get proposal by Id
     async getProposalById(data:{id: string}) {
         const proposal = await prisma.proposal.findUnique({
