@@ -26,6 +26,49 @@ body {
   background-size: cover;
 }
 
+.PhoneInput {
+  max-width: 25rem;
+  display: flex;
+  /* @apply border border-gray-200 rounded-md px-2; */
+  align-items: center;
+}
+.PhoneInputCountry {
+  position: relative;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  margin-right: 0.5em;
+}
+.PhoneInputCountrySelect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  border: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.PhoneInputInput {
+  flex: 1;
+  padding: 8px;
+  min-width: 0;
+  outline: none;
+  border: none;
+  width: 100%;
+}
+
+.PhoneInputCountryIcon {
+  width: calc(1.5em * 1.5);
+  height: 1.5rem;
+}
+
+.PhoneInputCountryIconImg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 .cs-divider {
   width: 100%;
   height: 1px;

@@ -1,6 +1,6 @@
-import { PrismaClient, Experiance } from '@prisma/client';
+import { prisma } from '../utils/prisma';
+import { Experiance } from '../types/types';
 
-const prisma = new PrismaClient();
 class BookingController {
   //create a new booking
   async createBooking(data: {
