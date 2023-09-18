@@ -27,6 +27,7 @@ model Draft {
   lastName    String
   phoneNumber String   @unique
   email       String   @unique
+  role        Role     @default(Parent)
   createdAt   DateTime @default(now())
 }
 
@@ -36,7 +37,7 @@ model User {
   lastName     String
   phoneNumber  String  @unique
   email        String  @unique
-  isConfirmed  Boolean @default(false)
+  isConfirmed  DateTime? @map("emailConfirmed")
   passwordHash String
   role         Role    @default(Parent)
   parent       Parent?
