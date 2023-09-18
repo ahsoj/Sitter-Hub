@@ -36,4 +36,6 @@ router.put('/poposal/:bookingId/:sitterId', async (req, res) => {
         res.status(500).send();
     }
 });
+
+
 export default router;

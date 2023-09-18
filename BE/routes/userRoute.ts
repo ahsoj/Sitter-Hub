@@ -72,3 +72,5 @@ router.post('/role/:id', async (req, res) =>{
         res.status(500).send
     }
 });
+
+export default router;

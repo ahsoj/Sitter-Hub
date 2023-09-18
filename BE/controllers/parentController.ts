@@ -26,15 +26,12 @@ class ParentController {
     return await prisma.parent.findUnique({
       where: {
         id: data.id
+      }, include: {
+        city: true,
       }
-    })
+    });
   }
-  // async findUserByEmail(data: {email:string}){
-  //   return await prisma.parent.findUnique({
-  //     where: {
-  //       email: data.email
-  //     }
-  //   })
-  // }
+  
+
   }
   export default ParentController;

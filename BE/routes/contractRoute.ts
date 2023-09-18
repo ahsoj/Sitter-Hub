@@ -46,3 +46,5 @@ router.delete('/poposal/:proposalId', async (req, res) => {
         res.status(500).send();
     }
 });
+
+export default router;
