@@ -1,10 +1,13 @@
 'use client';
 import { TbArrowNarrowRight } from 'react-icons/tb';
 import Form, { Field } from 'rc-field-form';
+import { useSession } from 'next-auth/react';
 import Header from '@/container/header';
 
 export default function Home() {
   const handleSearchQuery = () => {};
+  // const { data: session } = useSession();
+  // console.log(session);
   return (
     <main>
       <Header />

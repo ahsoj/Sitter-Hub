@@ -68,15 +68,15 @@ model ResetUUID {
 model Parent {
   id         String     @id @default(auto()) @map("_id") @db.ObjectId
   gender     String
-  city       City?      @relation(fields: [cityId], references: [id])
-  cityId     String     @db.ObjectId
   profilePic String
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @default(now())
-  feedbacks  Feedback[]
-  user       User       @relation(fields: [userId], references: [id])
+  cityId     String     @db.ObjectId
   userId     String     @unique @db.ObjectId
+  user       User       @relation(fields: [userId], references: [id])
+  city       City?      @relation(fields: [cityId], references: [id])
   booking    Booking[]
+  feedbacks  Feedback[]
 }
 
 model Sitter {

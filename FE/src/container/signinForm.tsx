@@ -84,8 +84,9 @@ const SigninForm = () => {
                 email: values.email,
                 password: values.password,
                 callbackUrl: callbackUrl || '/dashboard',
-              }).then(() => {
-                router.push(callbackUrl || '/dashboard');
+              }).then((res) => {
+                console.log(res);
+                // router.push(callbackUrl || '/dashboard');
                 setFormSubmitting(false);
                 actions.setSubmitting(false);
                 actions.resetForm();

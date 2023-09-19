@@ -47,6 +47,7 @@ router.post(
         lastName,
         phoneNumber,
         email,
+        role,
       });
 
       const link = `${
@@ -139,7 +140,6 @@ router.post('/confirm_password', async (req, res, next) => {
 router.post('/login', jsonParser, async (req, res: Response, next) => {
   try {
     const { email, password: passwordHash } = req.body;
-    console.log(email);
 
     if (!email || !passwordHash) {
       res.status(400).send('You must provide a valid email or password');

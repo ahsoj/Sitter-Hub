@@ -7,8 +7,9 @@ import Cookies from 'js-cookie';
 const authPath = ['/signin', '/register'];
 
 export default async function middleware(req: NextRequest) {
-  const token = Cookies.get('token');
-  console.log(token);
+  const token = await getToken({ req });
+  // console.log('11', token);
+  // console.log('12', req.nextUrl.pathname);
   if (token && authPath.includes(req.nextUrl.pathname)) {
     return NextResponse.redirect(new URL('/dashboard', req.url));
   }

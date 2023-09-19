@@ -6,18 +6,19 @@ class UserController {
   async findUniqueDraft(email: string) {
     return await prisma.draft.findUnique({ where: { email } });
   }
-  async findUniqueUser({ email, userId }: { email?: string; userId?: string }) {
-    if (email) {
-      return await prisma.user.findUnique({ where: { email } });
-    } else if (userId) {
-      return await prisma.user.findUnique({ where: { id: userId } });
-    }
+  async findUniqueUser(email: string) {
+    // if (email) {
+    return await prisma.user.findUnique({ where: { email } });
+    // } else if (userId) {
+    // return await prisma.user.findUnique({ where: { id: userId } });
+    // }
   }
   async createDraft(data: {
     firstName: string;
     lastName: string;
     phoneNumber: string;
     email: string;
+    role: Role;
   }) {
     return await prisma.draft.create({
       data: {
@@ -25,6 +26,7 @@ class UserController {
         lastName: data.lastName,
         phoneNumber: data.phoneNumber,
         email: data.email,
+        role: data.role,
       },
     });
   }
