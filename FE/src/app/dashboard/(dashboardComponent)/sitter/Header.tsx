@@ -2,14 +2,19 @@
 import React from 'react';
 import { RiSearchLine, RiNotification3Line, RiMailLine } from 'react-icons/ri';
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useSession, getSession } from 'next-auth/react';
 import { VscSignOut } from 'react-icons/vsc';
 import { CgProfile } from 'react-icons/cg';
 import { LuSettings } from 'react-icons/lu';
+import { twmesh } from '@/utils/twmesh';
 
 const SittersHeader = () => {
   const { data: session, status } = useSession();
   // console.log(session, status);
+  const current_path = usePathname();
+  console.log(current_path);
   return (
     <>
       <header className="flex flex-wrap sm:justify-start sm:flex-nowrap z-50 w-full bg-white border-b text-sm py-2.5 sm:py-4">
@@ -33,14 +38,23 @@ const SittersHeader = () => {
               />
             </a>
           </div>
-          <div className="hidden gap-3 sm:flex items-center">
-            {['Find Job', 'My Jobs', 'Saved Jobs'].map((label, idx) => (
-              <span
-                className="whitespace-nowrap pr-4 text-sm font-bold text-gray-600"
+          <div className="hidden gap-3 px-2 sm:flex items-center">
+            {[
+              { lable: 'Find Job', path: '/dashboard' },
+              { lable: 'My Jobs', path: '/my_jobs' },
+              { lable: 'Saved Jobs', path: '/saved_jobs' },
+            ].map((label, idx) => (
+              <Link
+                href={idx !== 0 ? `/dashboard${label.path}` : label.path}
+                className={twmesh(
+                  'whitespace-nowrap text-sm font-bold text-gray-600 hover:border-b-2 hover:border-brand',
+                  current_path === label.path &&
+                    'border-b-2 text-brand border-brand'
+                )}
                 key={idx}
               >
-                {label}
-              </span>
+                {label.lable}
+              </Link>
             ))}
           </div>
 
@@ -54,7 +68,7 @@ const SittersHeader = () => {
               </button>
             </div>
 
-            <div className="hidden sm:block">
+            <div className="hidden grow sm:block">
               <label htmlFor="icon" className="sr-only">
                 Search
               </label>

@@ -17,21 +17,14 @@ const DashboardLayout = async ({
   children: React.ReactNode;
 }) => {
   const session = await getServerSession(authOptions);
-  console.log('20', session);
+  // console.log('20', session);
 
   return (
     <main className="bg-slate-50 min-h-100vh">
-      {current_role === 'Sitter' ? <SittersHeader /> : <ParentsHeader />}
+      {current_role === 'Parent' ? <SittersHeader /> : <ParentsHeader />}
       <section className="my-8">{children}</section>
     </main>
   );
 };
 
-export async function getServerSideProps(context: any) {
-  return {
-    props: {
-      session: await getServerSession(context.req, context.res, authOptions),
-    },
-  };
-}
 export default DashboardLayout;

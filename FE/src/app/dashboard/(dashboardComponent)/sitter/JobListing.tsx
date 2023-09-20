@@ -47,11 +47,11 @@ const JobListing = ({ Typography }: JobListingProps) => {
             <span className="text-xs text-gray-600">Addis abeba</span>
           </div>
           <div className="whitespace-nowrap">
-            <span className="text-gray-400 text-[10px]">Industry:</span>{' '}
+            <span className="text-gray-400 text-xs">Industry:</span>{' '}
             <span className="text-xs text-gray-600">Digital Marketplace</span>
           </div>
           <div className="whitespace-nowrap">
-            <span className="text-gray-400 text-[10px]">Salary:</span>{' '}
+            <span className="text-gray-400 text-xs">Salary:</span>{' '}
             <span className="text-xs text-gray-600">$64/hour</span>
           </div>
         </div>
