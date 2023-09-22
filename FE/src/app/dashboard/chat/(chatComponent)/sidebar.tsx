@@ -2,6 +2,7 @@
 import { twmesh } from '@/utils/twmesh';
 import React, { useState } from 'react';
 import { RiUserSearchLine } from 'react-icons/ri';
+import { GrClose } from 'react-icons/gr';
 
 interface ChatlistBarProps {
   chatlistVisibilityHandler: () => void;
@@ -15,13 +16,19 @@ const ChatListBar = ({
   return (
     <div
       className={twmesh(
-        'w-full fixed min-h-screen hidden sm:relative transition-all duration-200 ease-in-out bg-black/[0.01] sm:bg-transparent top-[3.65rem] sm:top-auto z-20 sm:z-auto left-0 sm:max-w-xs',
-        chatlistVisibility && 'block'
+        'w-full fixed min-h-screen sm:block sm:relative transition-all duration-200 ease-in-out bg-black/[0.01] sm:bg-transparent top-[3.65rem] sm:top-auto z-20 sm:z-auto left-0 sm:max-w-xs',
+        chatlistVisibility && 'hidden'
       )}
     >
       <div className="flex w-full max-w-xs min-h-screen shadow-md sm:shadow-none bg-white">
         <div className="w-full p-2">
-          <div className="flex flex-col justify-center text-center">
+          <div className="flex flex-col justify-center relative isolate text-center">
+            <button
+              onClick={chatlistVisibilityHandler}
+              className="inline-flex sm:hidden absolute z-20 right-2 top-2"
+            >
+              <GrClose />
+            </button>
             <span className="w-32 h-32 mx-auto flex items-center justify-center rounded-full bg-gray-200">
               A
             </span>

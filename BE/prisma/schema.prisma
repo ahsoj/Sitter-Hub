@@ -43,6 +43,7 @@ model User {
   parent       Parent?
   sitter       Sitter?
   refreshToken RefreshToken[]
+  chatMember   ChatMember?
 }
 
 model RefreshToken {
