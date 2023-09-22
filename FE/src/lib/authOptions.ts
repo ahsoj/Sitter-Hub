@@ -2,6 +2,7 @@ import type { NextAuthOptions } from 'next-auth';
 import GoogleProvider, { GoogleProfile } from 'next-auth/providers/google';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import axios from '@/lib/axios';
+import Cookies from 'js-cookie';
 import jwt_decode from 'jwt-decode';
 
 type JwtToken = {
@@ -57,6 +58,7 @@ export const options: NextAuthOptions = {
               password: credentials.password,
             })
             .then((res) => res);
+          Cookies.set('_token', user.data, { expires: 60 });
           if (user) return user.data;
         } catch (error: any) {
           throw new Error(

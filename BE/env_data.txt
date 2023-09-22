@@ -1,4 +1,4 @@
-DATABASE_URL=
+DATABASE_URL=mongodb+srv://joshua:V1Qy8mM5hZrD8Kyc@cluster0.ndk39m6.mongodb.net/sitter_collections?retryWrites=true&w=majority
 SENDGRID_API_KEY=
 SENDER_EMAIL=
 SENDER_NAME=Sitter-Hub

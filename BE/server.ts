@@ -1,11 +1,16 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import http from 'http';
+import { Server } from 'socket.io';
+
 dotenv.config();
 // Initialize the express engine
 const app: express.Application = express();
+const server = http.createServer(app);
+const io = new Server(server);
 
-// Take a port 3000 for running server.
+// Take a port 5000 for running server.
 const port = process.env.PORT || 5000;
 
 const D = new Date();
@@ -37,7 +42,16 @@ app.use('/api/v1/poposal', require('./routes/proposalRoute.ts').default);
 app.use('/api/v1/feedback', require('./routes/feedbackRoute.ts').default);
 app.use('/api/v1/conract', require('./routes/contractRoute.ts').default);
 
+// websocket connection
+io.on('connection', (socket) => {
+  socket.emit('hello', 'World!');
+
+  socket.on('howdy', (arg) => {
+    console.log(arg);
+  });
+});
+
 // Server setup
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Engine running on http://localhost:${port}/`);
 });

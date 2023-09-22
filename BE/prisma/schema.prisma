@@ -42,6 +42,7 @@ model User {
   role         Role    @default(Parent)
   parent       Parent?
   sitter       Sitter?
+  chatmember   ChatMember?
   refreshToken  RefreshToken[]
 }
 
@@ -61,7 +62,6 @@ model ResetUUID {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   uuid			String 		@unique
 }
-
 
 //user  User  @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
 
@@ -158,4 +158,35 @@ model City {
   stateId   String?  @db.ObjectId
   sitter    Sitter[]
   Parent    Parent[]
+}
+
+// setup chat server schema
+model ChatMember {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  name            String
+  userEmail       String     @unique
+  user            User       @relation(fields: [userEmail], references: [email], onUpdate: Cascade, onDelete: Cascade)
+  location        Location[]
+  messages        Messages[]
+}
+
+model Messages {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  text            String
+  sentBy          ChatMember @relation(fields: [senderId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  senderId        String @db.ObjectId
+}
+
+model Location {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  memberId        String @db.ObjectId @unique
+  member         ChatMember @relation(fields: [memberId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  latitude        Float
+  longitude       Float
 }
