@@ -21,4 +21,20 @@ router.post('/:id/profile', async (req, res) => {
   }
 });
 
+//update parent profile
+router.put('/update/:id', async(req, res) => {
+  try {
+  const { id } = req.params;
+  const { gender, cityId, profilePic} = req.body;
+
+  await parentController.updateParent({
+    id, gender, cityId, profilePic,
+  });
+  res.status(201).send();
+} catch (error) {
+  console.error(error);
+  res.status(500).send();
+}
+});
+
 export { router as default };

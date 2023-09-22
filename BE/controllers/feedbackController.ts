@@ -14,7 +14,7 @@ class FeedBackContoller {
                 comment: data.comment
             }
     });
-    console.log("new feedback just created");
+    console.log("new feedback created");
     return feedback;
 }
 //get all feedbacks
