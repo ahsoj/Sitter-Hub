@@ -6,18 +6,19 @@ class UserController {
   async findUniqueDraft(email: string) {
     return await prisma.draft.findUnique({ where: { email } });
   }
-  async findUniqueUser({ email, userId }: { email?: string; userId?: string }) {
-    if (email) {
-      return await prisma.user.findUnique({ where: { email } });
-    } else if (userId) {
-      return await prisma.user.findUnique({ where: { id: userId } });
-    }
+  async findUniqueUser(email: string) {
+    // if (email) {
+    return await prisma.user.findUnique({ where: { email } });
+    // } else if (userId) {
+    // return await prisma.user.findUnique({ where: { id: userId } });
+    // }
   }
   async createDraft(data: {
     firstName: string;
     lastName: string;
     phoneNumber: string;
     email: string;
+    role: Role;
   }) {
     return await prisma.draft.create({
       data: {
@@ -25,24 +26,29 @@ class UserController {
         lastName: data.lastName,
         phoneNumber: data.phoneNumber,
         email: data.email,
+        role: data.role,
       },
     });
   }
 
   async confirmEmail(data: { id: string }) {
     const user = await prisma.draft.findUnique({
-      where: {
-        id: data.id,
-      },
+      where: { id: data.id },
     });
     if (!user) throw new Error('Invalid User');
+    const current_user = await prisma.user.findUnique({
+      where: { email: user.email },
+    });
+    if (current_user) return current_user;
+    const datetime = new Date();
     return await prisma.user.create({
       data: {
         firstName: user.firstName,
         lastName: user.lastName,
         phoneNumber: user.phoneNumber,
         email: user.email,
-        isConfirmed: true,
+        role: user.role,
+        isConfirmed: datetime.toISOString(),
         passwordHash: '',
       },
     });
@@ -50,7 +56,7 @@ class UserController {
 
   async confirmPassword(data: { id: string; password: string }) {
     const passwordHash = await bcrypt.hash(data.password, 10);
-    await prisma.user.update({
+    return await prisma.user.update({
       where: {
         id: data.id,
       },

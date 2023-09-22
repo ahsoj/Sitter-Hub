@@ -10,6 +10,7 @@ import sendgrid from '@sendgrid/mail';
 import { prisma } from '../utils/prisma';
 import path from 'path';
 import ejs from 'ejs';
+import ObjectID from 'bson-objectid';
 
 const router = express.Router();
 
@@ -31,8 +32,8 @@ router.post(
   jsonParser,
   async (req: Request, res: Response, next) => {
     try {
-      const { firstName, lastName, phoneNumber, email } = req.body;
-      if (!(firstName || lastName || phoneNumber || email)) {
+      const { firstName, lastName, phoneNumber, email, role } = req.body;
+      if (!(firstName || lastName || phoneNumber || email || role)) {
         res.status(400).send('You must provide all required fields');
         return;
       }
@@ -46,13 +47,14 @@ router.post(
         lastName,
         phoneNumber,
         email,
+        role,
       });
 
       const link = `${
         NODE_ENV === 'production'
-          ? 'https://aspix.vercel.app'
+          ? 'https://sitterhub.vercel.app'
           : 'http://192.168.1.100:3000'
-      }/thank-you-for-joinning/${draft.id}`;
+      }/new/${draft.id}`;
 
       ejs
         .renderFile(path.join(__dirname, 'email_templates/verify_email.ejs'), {
@@ -93,16 +95,38 @@ router.post(
   }
 );
 
-// const jti = uuid4();
-// const { accessToken, refreshToken } = generateTokens(user, jti);
-// await AuthServices.addRefreshTokenWhiteList({
-//   refreshToken,
-//   userId: user.id,
-// });
-// res.json({
-//   accessToken,
-//   refreshToken,
-// });
+router.get('/confirm_email/:draftId', async (req, res, next) => {
+  try {
+    const { draftId } = req.params;
+    if (!ObjectID.isValid(draftId)) {
+      return res.status(400).send('Bad Request.');
+    }
+    const user = await UserController.confirmEmail({
+      id: draftId as string,
+    });
+    res.status(200).send(user.id);
+  } catch (error) {
+    res.status(400).send('Error Occured.');
+    return next(error);
+  }
+});
+
+router.post('/confirm_password', async (req, res, next) => {
+  try {
+    const { userId, password, confirmPassword } = req.body;
+    if (!(userId || password))
+      return res.status(400).send('Please Fill required fields.');
+    console.log(userId, password, confirmPassword);
+    const user = await UserController.confirmPassword({
+      id: userId,
+      password,
+    });
+    res.status(201).json(user.id);
+  } catch (error) {
+    res.status(400).send('Error Occured.');
+    return next(error);
+  }
+});
 
 // router.get('/resetnew/token/:token', async (req, res, next) => {
 //   try {
@@ -113,46 +137,46 @@ router.post(
 //   }
 // });
 
-// router.post('/login', jsonParser, async (req, res: Response, next) => {
-//   try {
-//     const { email, password: passwordHash } = req.body;
-//     console.log(email);
+router.post('/login', jsonParser, async (req, res: Response, next) => {
+  try {
+    const { email, password: passwordHash } = req.body;
 
-//     if (!email || !passwordHash) {
-//       res.status(400).send('You must provide a valid email or password');
-//       return;
-//     }
-//     const existingUser = await UsersServices.findUserByEmail(email);
+    if (!email || !passwordHash) {
+      res.status(400).send('You must provide a valid email or password');
+      return;
+    }
+    const existingUser = await UserController.findUniqueUser(email);
 
-//     if (!existingUser) {
-//       res.status(403).send('Invalid login credentials.');
-//       return;
-//     }
+    if (!existingUser) {
+      res.status(403).send('Invalid login credentials.');
+      return;
+    }
 
-//     const validPassword = await bcrypt.compare(
-//       passwordHash,
-//       existingUser.passwordHash
-//     );
-//     if (!validPassword) {
-//       res.status(403).send(`Invalid login credentials.`);
-//       return;
-//     }
+    const validPassword = await bcrypt.compare(
+      passwordHash,
+      existingUser.passwordHash
+    );
+    if (!validPassword) {
+      res.status(403).send(`Invalid login credentials.`);
+      return;
+    }
 
-//     const jti = uuid4();
-//     const { accessToken, refreshToken } = generateTokens(existingUser, jti);
-//     await AuthServices.addRefreshTokenWhiteList({
-//       refreshToken,
-//       userId: existingUser.id,
-//     });
-//     res.json({
-//       accessToken,
-//       refreshToken,
-//       id: existingUser.id,
-//     });
-//   } catch (err) {
-//     next(err);
-//   }
-// });
+    const jti = uuid4();
+    const { accessToken, refreshToken } = generateTokens(existingUser, jti);
+    // const current_token = await prisma.refreshToken.findUnique({ where: { id: existingUser.id } });
+    await AuthServices.addRefreshTokenWhiteList({
+      refreshToken,
+      userId: existingUser.id,
+    });
+    res.json({
+      accessToken,
+      refreshToken,
+      id: existingUser.id,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
 
 // interface JwtPayload extends jwt.JwtPayload {
 //   jti: string;
