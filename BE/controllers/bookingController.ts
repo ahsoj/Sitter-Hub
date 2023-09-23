@@ -10,7 +10,9 @@ class BookingController {
     cord: string;
     description: string;
     experiance: Experiance;
+    // parentId: string;
   }) {
+    console.log(data.experiance);
     const booking = await prisma.booking.create({
       data: {
         datefrom: data.datefrom,
@@ -19,9 +21,11 @@ class BookingController {
         cord: data.cord,
         description: data.description,
         experiance: data.experiance,
+        // parentId: data.parentId,
       },
     });
-    console.log(`Created user with ID ${booking.id}`);
+    console.log(`Created Booking with ID ${booking.id}`);
+    return booking;
   }
 
   //get all booking
@@ -53,6 +57,17 @@ class BookingController {
         experiance: data.experiance,
       },
     });
+  }
+
+  async getBookingByNumberOfChiled(data: {numberChiled: string}) {
+    const book = await prisma.booking.findMany({
+      where: {
+        numberChiled: {
+          gte: parseInt(data.numberChiled),
+        },
+      },
+    });
+    return book;
   }
 }
 export default BookingController;
