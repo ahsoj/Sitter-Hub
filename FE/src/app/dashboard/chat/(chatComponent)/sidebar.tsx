@@ -37,7 +37,10 @@ const ChatListBar = ({
           <div className="cs-divider my-4 opacity-40" />
           <div className="space-y-4">
             {[1, 2, 3, 4].map((_, idx) => (
-              <div key={idx} className="flex gap-x-2  items-center">
+              <div
+                key={idx}
+                className="flex gap-x-2 hover:bg-brand/[0.1] rounded-md p-2 items-center"
+              >
                 <div className="relative">
                   <span className="w-10 h-10 flex items-center justify-center rounded-full bg-gray-200">
                     K
@@ -50,7 +53,7 @@ const ChatListBar = ({
                     <span className="text-[10px]">2/04/23</span>
                   </div>
                   <span className="text-xs text-slate-500">
-                    Lorem ipsum dolor sit amet morgan los an ...
+                    Lorem ipsum dolor sit amet morgan los ...
                   </span>
                 </div>
               </div>

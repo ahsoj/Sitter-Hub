@@ -3,8 +3,100 @@ import { useState } from 'react';
 import ChatListBar from './sidebar';
 import { BiSearchAlt } from 'react-icons/bi';
 import { RiUserSearchLine } from 'react-icons/ri';
+import Form, { Field } from 'rc-field-form';
+import { twmesh } from '@/utils/twmesh';
+import { CiLocationOn } from 'react-icons/ci';
+import { IoIosSend } from 'react-icons/io';
+import ChatBox from './chatbox';
 
-const ChatLayout = () => {
+interface ChatLayoutProps {
+  visibility: boolean;
+  sendMessage: (message: string) => void;
+}
+
+const demo_chat = [
+  {
+    from: 'parent',
+    message:
+      'Hi, I’m looking for a sitter for my two kids, ages 6 and 9, for next Saturday from 6 pm to 10 pm. Are you available and interested?',
+  },
+  {
+    from: 'sitter',
+    message:
+      'Hi, yes, I’m available and interested. I have experience with kids of that age group and I can provide references if needed',
+  },
+  {
+    from: 'parent',
+    message:
+      'Great, thank you. Can you please send me your proposal with your rates and services? ',
+  },
+  {
+    from: 'sitter',
+    message:
+      'Sure, I’ll send it to you shortly. Do you have any special requests or preferences for the kids? ',
+  },
+  {
+    from: 'parent',
+    message:
+      'Well, they are pretty easy-going, but they do have some allergies and bedtime routines that I’ll share with you later. Also, I prefer that you don’t use your phone or watch TV while you’re with them, unless it’s an emergency or for educational purposes',
+  },
+  {
+    from: 'sitter',
+    message:
+      'OK, I understand. I’ll keep that in mind when I write my proposal. I’ll get back to you soon. ',
+  },
+  {
+    from: 'parent',
+    message: 'Thank you, I appreciate it.',
+  },
+  {
+    from: 'sitter',
+    message:
+      'Hi, I’ve sent you my proposal via email. Please let me know if you have any questions or concerns.',
+  },
+  {
+    from: 'parent',
+    message:
+      'Hi, thank you for your proposal. It looks good, but I have a few questions. First, why did you charge $15 per hour? That seems a bit high compared to the average rate in our area. ',
+  },
+  {
+    from: 'sitter',
+    message:
+      'Well, I based my rate on my qualifications, experience, and the services I offer. I have a CPR certification, a background check, and a clean driving record. I also have more than five years of experience as a sitter and a nanny, and I’ve worked with kids of different ages and needs. I can also help with homework, chores, and activities. I think my rate is fair and competitive for the value I provide. ',
+  },
+  {
+    from: 'parent',
+    message:
+      'OK, I see your point. But can you lower it a bit? Maybe $12 per hour? ',
+  },
+  {
+    from: 'sitter',
+    message:
+      'Hmm, that’s a bit low for me. How about $13 per hour? That’s the lowest I can go without compromising the quality of my service. ',
+  },
+  {
+    from: 'parent',
+    message:
+      ' OK, let’s compromise on $13 per hour then. But can you also include a meal for yourself in that price? I don’t want to worry about feeding you while you’re here. ',
+  },
+  {
+    from: 'sitter',
+    message:
+      'Sure, that’s fine. As long as it’s something simple and easy to prepare. ',
+  },
+  {
+    from: 'parent',
+    message:
+      'OK, deal. Thank you for being flexible and understanding. I’m happy to hire you as our sitter for next Saturday. ',
+  },
+  {
+    from: 'sitter',
+    message:
+      'Thank you for choosing me as your sitter. I’m looking forward to meeting you and your kids.',
+  },
+];
+
+const ChatLayout = ({ visibility, sendMessage }: ChatLayoutProps) => {
   const [chatlistVisibility, setChatListVisibility] = useState<boolean>(false);
 
   const handleChatlistVisibility = () => {
@@ -42,89 +134,44 @@ const ChatLayout = () => {
             </button>
           </div>
         </div>
-        <div className="h-full min-h-screen"></div>
-        <div className="px-2 sticky bottom-0">
+        <ChatBox conversation={demo_chat} />
+        <Form
+          onFinish={(values) => {
+            sendMessage(values.raw_message);
+          }}
+          className="px-2 sticky bottom-0"
+        >
           <div className="relative border border-slate-300 rounded-lg">
-            <textarea
-              className="p-4 pb-12 block w-full outline-none border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500"
-              placeholder="Ask me anything..."
-            ></textarea>
+            <Field name="raw_message">
+              <textarea
+                className="p-4 pb-12 block w-full outline-none border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500"
+                name="raw_message"
+                placeholder="Ask me anything..."
+              ></textarea>
+            </Field>
 
             <div className="absolute bottom-px inset-x-px p-2 rounded-b-md bg-white">
               <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <button
-                    type="button"
-                    className="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 rounded-md text-gray-500 hover:text-blue-600 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                  >
-                    <svg
-                      className="h-4 w-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-                      <path d="M11.354 4.646a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708l6-6a.5.5 0 0 1 .708 0z" />
-                    </svg>
-                  </button>
-
-                  <button
-                    type="button"
-                    className="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 rounded-md text-gray-500 hover:text-blue-600 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
-                  >
-                    <svg
-                      className="h-4 w-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
-                    </svg>
-                  </button>
-                </div>
+                <div className="flex items-center" />
 
                 <div className="flex items-center gap-x-1">
                   <button
                     type="button"
                     className="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 rounded-md text-gray-500 hover:text-blue-600 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
                   >
-                    <svg
-                      className="h-4 w-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5z" />
-                      <path d="M10 8a2 2 0 1 1-4 0V3a2 2 0 1 1 4 0v5zM8 0a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V3a3 3 0 0 0-3-3z" />
-                    </svg>
+                    <CiLocationOn fontSize={22} />
                   </button>
-
                   <button
-                    type="button"
+                    type="submit"
                     className="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:z-10 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
                   >
-                    <svg
-                      className="h-3.5 w-3.5"
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      fill="currentColor"
-                      viewBox="0 0 16 16"
-                    >
-                      <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z" />
-                    </svg>
+                    <IoIosSend fontSize={22} className="text-white" />
                   </button>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </Form>
       </div>
     </>
   );

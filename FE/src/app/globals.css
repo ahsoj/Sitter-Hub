@@ -77,6 +77,11 @@ body {
   margin-inline: auto;
 }
 
+.kjshkjtrfghjbsdfsd::-webkit-scrollbar {
+  width: 0;
+  display: none;
+}
+
 @keyframes custom_ripple {
   to {
     transform: scale(4);
