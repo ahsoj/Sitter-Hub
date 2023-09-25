@@ -13,7 +13,7 @@
     "db:push": "npx prisma db push",
     "db:seed": "npx prisma db seed",
     "migrate:dev": "npx prisma generate dev",
-    "migrate:reset": "npx  prisma generate reset",
+    "migrate:reset": "npx prisma generate reset",
     "prisma:generate": "npx prisma generate",
     "prisma:studio": "npx prisma studio",
     "production:build": "npx prisma generate && npx prisma generate deploy ; tsc"

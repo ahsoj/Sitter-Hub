@@ -10,6 +10,14 @@ class ProposalController {
         coverLetter: string, 
         
     }){
+        const book = await prisma.booking.findUnique({
+            where:{
+                id: data.bookingId,
+            }
+        });
+        if (!book) {
+            throw new Error('Booking not found!');
+        }
         const proposal = await prisma.proposal.create({
             data:{
                 coverLetter: data.coverLetter,
