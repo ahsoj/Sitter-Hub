@@ -4,10 +4,10 @@ import ProposalController from '../controllers/proposalController';
 const router = express.Router();
 const proposalController = new ProposalController();
 
-router.post('/poposal/:sitterId/:bookingId', async (req, res) => {
+router.post('/add_proposal/:bookingId', async (req, res) => {
   try {
-    const { bookingId, sitterId } = req.params;
-    const { coverLetter } = req.body;
+     const { bookingId } = req.params;
+    const { sitterId, coverLetter } = req.body;
    const proposal = await proposalController.createProposal({
       sitterId,
       bookingId,
@@ -21,19 +21,33 @@ router.post('/poposal/:sitterId/:bookingId', async (req, res) => {
 });
 
 //update route
-router.put('/poposal/:bookingId/:sitterId', async (req, res) => {
+router.put('/update_poposal/:id', async (req, res) => {
   try {
-    const { bookingId, sitterId } = req.params;
-    const { coverLetter } = req.body;
-    await proposalController.updateProposal({
+    const {  id } = req.params;
+    const { sitterId, coverLetter, bookingId } = req.body;
+    const proposal = await proposalController.updateProposal({
+      id,
       sitterId,
       bookingId,
       coverLetter,
     });
-    res.status(201).send();
+    res.status(201).send(proposal);
   } catch (error) {
     console.error(error);
-    res.status(500).send();
+    res.status(500).send("No such proposal to update!");
   }
 });
+router.get('/all_proposal/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const bookingId = id as string;
+    const proposal = await proposalController.getAllProposalByBookingId({ bookigId: bookingId });
+    res.status(201).send(proposal);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("No proposals found!");
+  }
+});
+
+
 export { router as default };

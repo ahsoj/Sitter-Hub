@@ -16,7 +16,18 @@ class ProposalController {
             }
         });
         if (!book) {
-            throw new Error('Booking not found!');
+             return ('Booking not found!')
+            // throw new Error('Booking not found!');
+        }
+        const checkIfUserAlreadyApplied = await prisma.proposal.findMany({
+            where: {
+                bookingId: data.bookingId,
+                sitterId: data.sitterId
+            }
+        });
+        if(checkIfUserAlreadyApplied) { 
+            return ('You already applied for this job!');
+           // throw new Error('You already applied for this job!');
         }
         const proposal = await prisma.proposal.create({
             data:{
@@ -30,17 +41,24 @@ class ProposalController {
     }
     //update Proposal
     async updateProposal(data: {
-        sitterId: string 
+        id: string,
+        sitterId: string, 
         bookingId: string,
         coverLetter:string,
         
     }) {
+        const book = await prisma.proposal.findMany({
+            where: {
+                id: data.id
+            }
+        });
+        if (!book) {
+            throw new Error('Booking not found!');
+        }
         const proposal = await prisma.proposal.update({
             where :{
-                id: data.bookingId,
-                Sitter:{
-                    id: data.sitterId
-                }
+                id: data.id,
+                sitterId: data.sitterId,
             },
             data :{
                 coverLetter: data.coverLetter
@@ -50,9 +68,14 @@ class ProposalController {
         return proposal;
     }
 
-    //get all proposal form the database
-    async getAllProposal() {
+    //get all proposal form the database by using booking id
+    async getAllProposalByBookingId(data:{
+        bookigId:string,
+    }) {
         const proposals = await prisma.proposal.findMany({
+            where: {
+                bookingId: data.bookigId,
+            },
             include: {
                 Booking: true,
                 Sitter: true

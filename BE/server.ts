@@ -61,7 +61,7 @@ app.use('/api/v1/user', require('./routes/userRoute.ts').default);
 app.use('/api/v1/sitter', require('./routes/sitterRoute.ts').default);
 app.use('/api/v1/parent', require('./routes/parentRoute.ts').default);
 app.use('/api/v1/booking', require('./routes/bookingRoute.ts').default);
-app.use('/api/v1/poposal', require('./routes/proposalRoute.ts').default);
+app.use('/api/v1/proposal', require('./routes/proposalRoute.ts').default);
 app.use('/api/v1/feedback', require('./routes/feedbackRoute.ts').default);
 app.use('/api/v1/conract', require('./routes/contractRoute.ts').default);
 app.use('/api/v1/chat/', require('./routes/conversationRoute').default);
