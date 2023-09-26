@@ -5,6 +5,15 @@ const prisma = new PrismaClient()
 class ContractController { 
     //create a new contract to the database
     async createContract(data: {startDate: Date, proposalId: string}){
+        //check if proposal exist
+        const proposal = await prisma.proposal.findUnique({
+            where: {
+                id: data.proposalId,
+            }
+        })
+        if (!proposal) {
+            return ("No such proposal to Approved!")
+        }
         const contract = await prisma.contract.create({
             data: {
                 startDate: data.startDate,
@@ -25,14 +34,16 @@ class ContractController {
                 startDate: data.startDate,
             }
         });
-        return contract;
+        return (`Contract date updated to ${contract.startDate}`);
     }
 
     //get proposals on contract
-    async getProposalOnContract() {
+    async getContractByProposal(data: {
+        proposalId: string
+    }) {
         const proposal = await prisma.contract.findMany({
-            include: {
-                Proposal: true,
+            where: {
+                proposalId: data.proposalId
             }
         });
         return proposal;
@@ -40,16 +51,16 @@ class ContractController {
 
     //delete proposal on contract
     async deleteContract(data: {
-        proposalId: string
+        contractId: string
     }) {
         await prisma.contract.delete({
             where: {
-                proposalId: data.proposalId,
+                id: data.contractId,
             }
         });
         console.log("Contract deleted");
+        return ('contract is deleted!')
     }
-
 }
 
 export default ContractController;

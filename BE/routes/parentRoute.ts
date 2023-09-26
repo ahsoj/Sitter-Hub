@@ -4,7 +4,7 @@ import ParentController from '../controllers/parentController';
 const router = express.Router();
 const parentController = new ParentController();
 
-router.post('/:id/profile', async (req, res) => {
+router.post('/profile/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { gender, cityId, profilePic } = req.body;

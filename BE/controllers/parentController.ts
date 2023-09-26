@@ -49,12 +49,5 @@ class ParentController {
       }
     })
   }
-  // async findUserByEmail(data: {email:string}){
-  //   return await prisma.parent.findUnique({
-  //     where: {
-  //       email: data.email
-  //     }
-  //   })
-  // }
   }
   export default ParentController;

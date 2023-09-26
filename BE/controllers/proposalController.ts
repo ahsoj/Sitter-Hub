@@ -97,7 +97,6 @@ class ProposalController {
         });
         return proposal;
     }
-
     
 }
 export default ProposalController;

@@ -28,6 +28,30 @@ class SitterController {
 
     console.log(`Created sitter with ID ${sitter.id}`);
   }
+  //update sitter profile
+  async updateSitter(data: {
+    id: string
+    gender: string;
+    birthDate: Date;
+    cityId: string;
+    educationBackground: string;
+    certificate: string;
+    profilePic: string;
+}) {
+  const parent = await prisma.sitter.update({
+    where: { id: data.id},
+    data: {
+      gender: data.gender,
+      birthDate: data.birthDate,
+      cityId: data.cityId,
+      educationBackground: data.educationBackground,
+      certificate: data.certificate,
+      profilePic: data.profilePic,
+      },
+    });
+
+  console.log(`Sitter Updated with ID ${parent.id}`);
+}
 //find all sitter 
   async getAllSitter(){
     return await prisma.sitter.findMany({
