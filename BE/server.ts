@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import http from 'http';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 // Initialize the express engine
@@ -46,6 +47,7 @@ const io = new Server(server, {
 //   io.listen(5005);
 // });
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));

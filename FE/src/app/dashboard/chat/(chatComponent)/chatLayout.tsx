@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import ChatListBar from './sidebar';
 import { BiSearchAlt } from 'react-icons/bi';
 import { RiUserSearchLine } from 'react-icons/ri';
@@ -98,9 +98,18 @@ const demo_chat = [
 
 const ChatLayout = ({ visibility, sendMessage }: ChatLayoutProps) => {
   const [chatlistVisibility, setChatListVisibility] = useState<boolean>(false);
+  const [isPending, startTransition] = useState<boolean>(false);
+  const [chatMessage, setChatMessage] = useState<string>('');
 
   const handleChatlistVisibility = () => {
     setChatListVisibility(!chatlistVisibility);
+  };
+
+  const handleChatInputChange = (
+    ev: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    startTransition(ev.target.value.length >= 2);
+    setChatMessage(ev.target.value);
   };
 
   return (
@@ -134,7 +143,7 @@ const ChatLayout = ({ visibility, sendMessage }: ChatLayoutProps) => {
             </button>
           </div>
         </div>
-        <ChatBox conversation={demo_chat} />
+        <ChatBox conversation={demo_chat} isTyping={isPending} />
         <Form
           onFinish={(values) => {
             sendMessage(values.raw_message);
@@ -146,6 +155,7 @@ const ChatLayout = ({ visibility, sendMessage }: ChatLayoutProps) => {
               <textarea
                 className="p-4 pb-12 block w-full outline-none border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500"
                 name="raw_message"
+                onChange={handleChatInputChange}
                 placeholder="Ask me anything..."
               ></textarea>
             </Field>

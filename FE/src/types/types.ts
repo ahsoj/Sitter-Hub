@@ -7,6 +7,10 @@ type Draft = {
   createdAt: Date;
 };
 
+type Prettify<T> = {
+  [K in keyof T]: T[K];
+} & {};
+
 type User = {
   id: string;
   firstName: string;

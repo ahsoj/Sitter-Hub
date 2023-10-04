@@ -1,10 +1,13 @@
 'use client';
 import { SessionProvider } from 'next-auth/react';
-
-import React from 'react';
+import { SnackbarProvider } from 'notistack';
 
 const ContextLayout = ({ children }: { children: React.ReactNode }) => {
-  return <SessionProvider>{children}</SessionProvider>;
+  return (
+    <SessionProvider>
+      <SnackbarProvider>{children}</SnackbarProvider>
+    </SessionProvider>
+  );
 };
 
 export default ContextLayout;

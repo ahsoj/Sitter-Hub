@@ -1,10 +1,8 @@
-import { getServerSession } from 'next-auth/next';
-import { getSession } from 'next-auth/react';
-import { options as authOptions } from '@/lib/authOptions';
+import React from 'react';
+import OnboardingSitters from './(role)/sitters';
+import OnboardingParents from './(role)/parents';
 import jwt_decode from 'jwt-decode';
 import { cookies } from 'next/headers';
-import ParentsHeader from './(dashboardComponent)/parent/Header';
-import SittersHeader from './(dashboardComponent)/sitter/Header';
 import Link from 'next/link';
 
 type Role = 'Parent' | 'Sitter';
@@ -17,14 +15,7 @@ type AccessJwt = {
   exp: number | string;
 };
 
-const DashboardLayout = async ({
-  props,
-  children,
-}: {
-  props: any;
-  children: React.ReactNode;
-}) => {
-  // const session = await getServerSession(authOptions);
+const OnboardingPage = () => {
   const _cookies = cookies().get('access_token')?.value;
   if (!_cookies)
     return (
@@ -38,13 +29,16 @@ const DashboardLayout = async ({
     );
   const access_jwt: AccessJwt = jwt_decode(_cookies);
   const current_role = access_jwt.role || 'Parent';
-
+  const current_id = access_jwt.userId;
   return (
-    <main className="bg-slate-50 min-h-100vh">
-      {current_role === 'Parent' ? <SittersHeader /> : <ParentsHeader />}
-      <section className="">{children}</section>
-    </main>
+    <div className="bg-slate-50">
+      {current_role === 'Parent' ? (
+        <OnboardingParents userId={current_id} />
+      ) : (
+        <OnboardingSitters />
+      )}
+    </div>
   );
 };
 
-export default DashboardLayout;
+export default OnboardingPage;

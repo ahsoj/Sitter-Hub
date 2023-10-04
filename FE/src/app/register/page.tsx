@@ -7,12 +7,13 @@ import * as Yup from 'yup';
 import { BsGithub } from 'react-icons/bs';
 import { FcGoogle } from 'react-icons/fc';
 import { twmesh } from '@/utils/twmesh';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import PhoneInput, {
   formatPhoneNumber,
   formatPhoneNumberIntl,
   isValidPhoneNumber,
 } from 'react-phone-number-input';
+import { enqueueSnackbar } from 'notistack';
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -207,19 +208,26 @@ const CreateAccount: React.FC<FormikProps<FormValues>> = (props) => {
               onSubmit={async (values, actions) => {
                 setFormSubmitting(true);
                 await axios
-                  .post('/api/auth/register/', {
+                  .post('http://127.0.0.1:5000/api/v1/auth/pre_register/', {
                     firstName: values.firstName,
                     lastName: values.lastName,
                     email: values.email,
                     phoneNumber: formatPhoneNumberIntl(values.phoneNumber),
+                    role: values.roleType,
                   })
                   .then((res) => {
+                    enqueueSnackbar(res.data as string, { variant: 'success' });
                     setFormSubmitting(false);
                     actions.setSubmitting(false);
                     actions.resetForm();
                     setSuccess(!success);
                   })
-                  .catch((err) => setFormSubmitting(false));
+                  .catch((err: AxiosError) => {
+                    enqueueSnackbar(err.response?.data as string, {
+                      variant: 'error',
+                    });
+                    setFormSubmitting(false);
+                  });
                 // console.log({
                 //   firstName: values.firstName,
                 //   lastName: values.lastName,

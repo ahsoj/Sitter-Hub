@@ -34,9 +34,9 @@ router.post(
     try {
       const { firstName, lastName, phoneNumber, email, role } = req.body;
       if (!(firstName || lastName || phoneNumber || email || role)) {
-        res.status(400).send('You must provide all required fields');
-        return;
+        return res.status(400).send('You must provide all required fields');
       }
+      console.log(firstName, lastName, phoneNumber, email, role);
       const existsingDraft = await UserController.findUniqueDraft(email);
       if (existsingDraft) {
         res.status(400).send('This Email is already in use.');
@@ -90,6 +90,8 @@ router.post(
         });
       res.status(201).send('Account Created Successfully.');
     } catch (err) {
+      console.log(err);
+      res.status(400).send('Bad request');
       next(err);
     }
   }
@@ -168,11 +170,15 @@ router.post('/login', jsonParser, async (req, res: Response, next) => {
       refreshToken,
       userId: existingUser.id,
     });
-    res.json({
-      accessToken,
-      refreshToken,
-      id: existingUser.id,
-    });
+    return res
+      .cookie('access_token', accessToken, {
+        httpOnly: true,
+      })
+      .json({
+        accessToken,
+        refreshToken,
+        id: existingUser.id,
+      });
   } catch (err) {
     next(err);
   }

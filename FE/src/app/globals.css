@@ -11,10 +11,9 @@ h3 {
   font-family: 'Oswald', sans-serif;
 }
 
-/* 
 body {
-  @apply bg-slate-50;
-} */
+  scroll-behavior: smooth;
+}
 
 .wer56iojlkwe5iugsdfg::before {
   content: '';

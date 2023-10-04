@@ -13,7 +13,8 @@ interface ConversationProps {
 
 const ChatPage = () => {
   const [visibility, setVisibility] = useState<boolean>(false);
-  const socket = io(`ws://localhost:5000`);
+  const [socketId, setSocketId] = useState<string>('pJo-tEuBEX7kRHZTAAAf');
+  const socket = io(`ws://localhost:5000`, { autoConnect: false });
   useEffect(() => {
     socket.on('welcome', (msg) => {
       console.log(msg);
@@ -27,6 +28,7 @@ const ChatPage = () => {
     });
     socket.on('recent:connection', (conversation: ConversationProps) => {
       // console.log(conversation);
+      setSocketId(conversation.topic);
       axios
         .get(`/chat/recent_chat_peoples/${conversation.id}`)
         .then((res) => {
@@ -36,7 +38,7 @@ const ChatPage = () => {
           console.error(err);
         });
     });
-  }, []);
+  }, [socket]);
 
   socket.on('visibility:type', (type: string) =>
     setVisibility(type === 'online')
@@ -46,7 +48,7 @@ const ChatPage = () => {
     console.log(data);
   });
 
-  const socketId = 'pJo-tEuBEX7kRHZTAAAf';
+  // const socketId = 'pJo-tEuBEX7kRHZTAAAf';
 
   const sendMessage = (message: string) => {
     socket.emit('on:conversation', { toid: socketId, message });

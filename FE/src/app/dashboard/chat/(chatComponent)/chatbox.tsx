@@ -1,16 +1,26 @@
+'use client';
 import { twmesh } from '@/utils/twmesh';
-import React from 'react';
+import React, { useRef } from 'react';
+import { RxAvatar } from 'react-icons/rx';
 
 type ChatBoxProps = {
   from: string;
   message: string;
 }[];
 
-const ChatBox: React.FC<{ conversation: ChatBoxProps }> = ({
+const ChatBox: React.FC<{ conversation: ChatBoxProps; isTyping: boolean }> = ({
   conversation,
+  isTyping,
 }) => {
+  const scrollBottomRef = useRef<HTMLDivElement | null>(null);
+  if (scrollBottomRef.current) {
+    scrollBottomRef.current.scrollTop = scrollBottomRef.current.scrollHeight;
+  }
   return (
-    <div className="max-h-[80vh] overflow-y-scroll kjshkjtrfghjbsdfsd">
+    <div
+      ref={scrollBottomRef}
+      className="max-h-[75vh] overflow-y-scroll kjshkjtrfghjbsdfsd"
+    >
       <ul className="mt-16 space-y-5">
         {conversation.map((data, idx) => (
           <li
@@ -20,6 +30,22 @@ const ChatBox: React.FC<{ conversation: ChatBoxProps }> = ({
               data.from === 'parent' && 'flex-row-reverse'
             )}
           >
+            <div
+              className={twmesh(
+                'flex-shrink-0 w-[2.375rem] flex items-center justify-center h-[2.375rem] rounded-full',
+                data.from === 'parent' ? 'bg-blue-500' : 'bg-red-500'
+              )}
+            >
+              <RxAvatar fontSize={30} className="text-white fill-white" />
+            </div>
+
+            <div className="bg-white border border-gray-200 rounded-lg p-4 space-y-3">
+              <p className="mb-1.5 text-sm text-gray-800">{data.message}</p>
+            </div>
+          </li>
+        ))}
+        {isTyping && (
+          <li className="flex gap-x-2 flex-row-reverse sm:gap-x-4 p-2">
             <svg
               className="flex-shrink-0 w-[2.375rem] h-[2.375rem] rounded-full"
               width="38"
@@ -42,11 +68,11 @@ const ChatBox: React.FC<{ conversation: ChatBoxProps }> = ({
               <ellipse cx="19" cy="18.6554" rx="3.75" ry="3.6" fill="white" />
             </svg>
 
-            <div className="bg-white border border-gray-200 rounded-lg p-4 space-y-3">
-              <p className="mb-1.5 text-sm text-gray-800">{data.message}</p>
+            <div className="bg-slate-200 border border-gray-200 rounded-lg p-2 space-y-3">
+              <p className="text-sm text-gray-800">...typing</p>
             </div>
           </li>
-        ))}
+        )}
       </ul>
     </div>
   );

@@ -16,6 +16,7 @@ export const connectionHandler = (socket: Socket) => {
     } else {
       const new_conversation = await prisma.conversation.create({
         data: {
+          userId: '650890b8104364b86555b59f',
           topic: socket.id,
         },
       });

@@ -1,94 +1,88 @@
 import { PrismaClient, Role } from '@prisma/client';
+import multer from 'multer';
 
-const prisma = new PrismaClient()
+const storage = multer.memoryStorage();
+
+export const upload = multer({
+  storage: storage,
+});
+
+export const uploadMiddleware = upload.single('article_asset');
+
+export function runMiddleware(req: any, res: any, fn: any) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result: unknown) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+      return resolve(result);
+    });
+  });
+}
+
+const prisma = new PrismaClient();
 class SitterController {
-//create a new user
-    async createSitter(data: {
-      id: string
-      gender: string;
-      birthDate: Date;
-      cityId: string;
-      educationBackground: string;
-      certificate: string;
-      isVerifyed: boolean;
-      profilePic: string;
+  //create a new user
+  async createSitter(data: {
+    id: string;
+    gender: string;
+    birthDate: Date;
+    city: string;
+    educationBackground: string;
+    certificate: string;
+    isVerifyed: boolean;
+    profilePic: string;
   }) {
     const sitter = await prisma.sitter.update({
-      where: { id: data.id},
+      where: { id: data.id },
       data: {
         gender: data.gender,
         birthDate: data.birthDate,
-        cityId: data.cityId,
+        city: data.city,
         educationBackground: data.educationBackground,
         certificate: data.certificate,
         isVerifyed: data.isVerifyed,
         profilePic: data.profilePic,
-        },
-      });
-
-    console.log(`Created sitter with ID ${sitter.id}`);
-  }
-  //update sitter profile
-  async updateSitter(data: {
-    id: string
-    gender: string;
-    birthDate: Date;
-    cityId: string;
-    educationBackground: string;
-    certificate: string;
-    profilePic: string;
-}) {
-  const parent = await prisma.sitter.update({
-    where: { id: data.id},
-    data: {
-      gender: data.gender,
-      birthDate: data.birthDate,
-      cityId: data.cityId,
-      educationBackground: data.educationBackground,
-      certificate: data.certificate,
-      profilePic: data.profilePic,
       },
     });
 
-  console.log(`Sitter Updated with ID ${parent.id}`);
-}
-//find all sitter 
-  async getAllSitter(){
+    console.log(`Created sitter with ID ${sitter.id}`);
+  }
+  //find all sitter
+  async getAllSitter() {
     return await prisma.sitter.findMany({
       include: {
-        City: true,
         feedbacks: true,
-      }
-    })
+      },
+    });
   }
 
-  async getSitterById(data: {id:string}){
+  async getSitterById(data: { id: string }) {
     return await prisma.sitter.findUnique({
       where: {
-        id: data.id
+        id: data.id,
       },
       include: {
-        City: true,
-        feedbacks: true
-      }
-    })
+        feedbacks: true,
+      },
+    });
   }
 
-//   async getSitterByRating(data: {rating: number}) {
-//     const byRating = await prisma.sitter.findMany({
-//         where :{
-//             feedbacks: {
-//               rating: {
-//                 gte: data.rating
-//             },
-//           }
-//         },
-//         include: {
-//           City: true,
-//           feedbacks: true
-//         },
-//     });
-//     return byRating;
-// }
-  }
-  export default SitterController;
+  //   async getSitterByRating(data: {rating: number}) {
+  //     const byRating = await prisma.sitter.findMany({
+  //         where :{
+  //             feedbacks: {
+  //               rating: {
+  //                 gte: data.rating
+  //             },
+  //           }
+  //         },
+  //         include: {
+  //           City: true,
+  //           feedbacks: true
+  //         },
+  //     });
+  //     return byRating;
+  // }
+}
+export default SitterController;

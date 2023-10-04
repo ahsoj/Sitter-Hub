@@ -6,6 +6,8 @@ import * as Yup from 'yup';
 import { signIn } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { twmesh } from '@/utils/twmesh';
+import Authentication from '@/lib/Authentication';
+import { enqueueSnackbar } from 'notistack';
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -79,18 +81,30 @@ const SigninForm = () => {
             validationSchema={validationSchema}
             onSubmit={async (values, actions) => {
               setFormSubmitting(false);
-              await signIn('credentials', {
-                redirect: Boolean(false),
+              await Authentication.signIn({
                 email: values.email,
                 password: values.password,
-                callbackUrl: callbackUrl || '/dashboard',
-              }).then((res) => {
-                console.log(res);
-                // router.push(callbackUrl || '/dashboard');
-                setFormSubmitting(false);
-                actions.setSubmitting(false);
-                actions.resetForm();
-              });
+                callbackUrl: callbackUrl || '/onboarding',
+              })
+                .then((res) => {
+                  // console.log(res);
+                  enqueueSnackbar('Login Successfull! Redirecting ...', {
+                    variant: 'success',
+                  });
+                  // router.push(callbackUrl || '/dashboard');
+                  setFormSubmitting(false);
+                  actions.setSubmitting(false);
+                  actions.resetForm();
+                })
+                .catch((err) => {
+                  console.log(err);
+                  enqueueSnackbar(
+                    "Oohh Something went wrong let's take one more try",
+                    {
+                      variant: 'error',
+                    }
+                  );
+                });
             }}
           >
             {({
