@@ -1,3 +1,4 @@
+import { JobBooks } from '@/types/types';
 import { twmesh } from '@/utils/twmesh';
 import React from 'react';
 import { GrClose } from 'react-icons/gr';
@@ -5,11 +6,13 @@ import { MdFavoriteBorder, MdFavorite } from 'react-icons/md';
 
 type JonViewModalProps = {
   jobViewOpened: boolean;
+  jobListings: JobBooks;
   handleJobViewOpened: () => void;
 };
 
 const JobViewModal = ({
   jobViewOpened,
+  jobListings,
   handleJobViewOpened,
 }: JonViewModalProps) => {
   return (
@@ -41,10 +44,7 @@ const JobViewModal = ({
               </button>
             </div>
             <div className="p-4 overflow-y-auto">
-              <p className="mt-1 text-gray-800">
-                This is a wider card with supporting text below as a natural
-                lead-in to additional content.
-              </p>
+              <p className="mt-1 text-gray-700">{jobListings.description}</p>
             </div>
             <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t">
               <button

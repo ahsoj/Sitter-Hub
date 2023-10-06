@@ -33,7 +33,7 @@ router.post('/:id/profile', async (req, res) => {
     const {
       gender,
       birthDate,
-      cityId,
+      city,
       educationBackground,
       certificate,
       profilePic,
@@ -43,7 +43,7 @@ router.post('/:id/profile', async (req, res) => {
       id,
       gender,
       birthDate,
-      cityId,
+      city,
       educationBackground,
       certificate,
       isVerifyed,
@@ -55,32 +55,32 @@ router.post('/:id/profile', async (req, res) => {
     res.status(500).send();
   }
 });
-router.put('/update/:id', async (req, res) => {
-  try {
-    const { id } = req.params;
-    const {
-      gender,
-      birthDate,
-      cityId,
-      educationBackground,
-      certificate,
-      profilePic,
-    } = req.body;
+// router.put('/update/:id', async (req, res) => {
+//   try {
+//     const { id } = req.params;
+//     const {
+//       gender,
+//       birthDate,
+//       cityId,
+//       educationBackground,
+//       certificate,
+//       profilePic,
+//     } = req.body;
 
-    const updatedSitter = await sitterController.updateSitter({
-      id,
-      gender,
-      birthDate,
-      cityId,
-      educationBackground,
-      certificate,
-      profilePic,
-    });
-    res.status(201).send(updatedSitter);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Error profile did not updated');
-  }
-});
+//     const updatedSitter = await sitterController.updateSitter({
+//       id,
+//       gender,
+//       birthDate,
+//       city,
+//       educationBackground,
+//       certificate,
+//       profilePic,
+//     });
+//     res.status(201).send(updatedSitter);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).send('Error profile did not updated');
+//   }
+// });
 
 export { router as default };

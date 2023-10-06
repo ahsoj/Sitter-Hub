@@ -7,14 +7,14 @@ import { IconButton } from '@/components/Button';
 import { TbArrowNarrowRight } from 'react-icons/tb';
 
 const header_content = [
-  {
-    label: 'Babysiter wanted',
-    path: '/b_wanted',
-  },
-  {
-    label: 'Babysitting jobs',
-    path: '/b_jobs',
-  },
+  // {
+  //   label: 'Babysiter wanted',
+  //   path: '/b_wanted',
+  // },
+  // {
+  //   label: 'Babysitting jobs',
+  //   path: '/b_jobs',
+  // },
   {
     label: 'How it works',
     path: '/how-it-works',

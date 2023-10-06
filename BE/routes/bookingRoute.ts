@@ -11,13 +11,13 @@ router.post('/create_book', async (req, res) => {
     const { datefrom, dateTo, numberChiled, cord, description } = req.body;
     //  const parentId = req.body.parentId
     let experiance = req.body.experiance;
-      if(experiance === "Entry") {
-        experiance = Experiance.Entry
-      } else if(experiance === "Intermideate") {
-        experiance = Experiance.Intermideate
-      } else {
-        experiance = Experiance.Expert
-      }  
+    if (experiance === 'Entry') {
+      experiance = Experiance.Entry;
+    } else if (experiance === 'Intermideate') {
+      experiance = Experiance.Intermideate;
+    } else {
+      experiance = Experiance.Expert;
+    }
     const booking = await bookingController.createBooking({
       datefrom,
       dateTo,
@@ -37,7 +37,7 @@ router.post('/create_book', async (req, res) => {
 router.get('/books', async (req, res) => {
   try {
     const bookings = await bookingController.getAllBooking();
-    res.status(201).send(bookings);
+    res.status(201).json(bookings);
   } catch (error) {
     console.error(error);
     res.status(500).send();
@@ -51,7 +51,17 @@ router.get('/book/:id', async (req, res) => {
     res.status(201).send(book);
   } catch (error) {
     console.error(error);
-    res.status(500).send("no such booking!");
+    res.status(500).send('no such booking!');
+  }
+});
+router.get('/current_book/:parentId', async (req, res) => {
+  try {
+    const { parentId } = req.params;
+    const book = await bookingController.getBookingByOwner({ parentId });
+    res.status(201).send(book);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('no such booking!');
   }
 });
 
@@ -81,13 +91,15 @@ router.get('/book/exp/:experiance', async (req, res) => {
 
 router.get('/book/num_kid/:num', async (req, res) => {
   try {
-    const  numberChiled  = req.params.num;
-    const book = await bookingController.getBookingByNumberOfChiled({numberChiled});
+    const numberChiled = req.params.num;
+    const book = await bookingController.getBookingByNumberOfChiled({
+      numberChiled,
+    });
     res.status(201).send(book);
-} catch (error) {
-  console.error(error);
-  res.status(500).send("Sorry there is no booking in these number of child.");
-}
-})
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Sorry there is no booking in these number of child.');
+  }
+});
 
 export default router;

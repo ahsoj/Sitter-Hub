@@ -6,16 +6,7 @@ import { cookies } from 'next/headers';
 import ParentsHeader from './(dashboardComponent)/parent/Header';
 import SittersHeader from './(dashboardComponent)/sitter/Header';
 import Link from 'next/link';
-
-type Role = 'Parent' | 'Sitter';
-
-type AccessJwt = {
-  userId: string;
-  email: string;
-  role: Role;
-  iat: number | string;
-  exp: number | string;
-};
+import { AccessJwt } from '@/types/types';
 
 const DashboardLayout = async ({
   props,
@@ -41,7 +32,11 @@ const DashboardLayout = async ({
 
   return (
     <main className="bg-slate-50 min-h-100vh">
-      {current_role === 'Parent' ? <SittersHeader /> : <ParentsHeader />}
+      {current_role === 'Parent' ? (
+        <ParentsHeader userInfo={access_jwt} />
+      ) : (
+        <SittersHeader userInfo={access_jwt} />
+      )}
       <section className="">{children}</section>
     </main>
   );

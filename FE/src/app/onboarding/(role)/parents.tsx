@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import { twmesh } from '@/utils/twmesh';
 import { useState } from 'react';
 import axios from '@/lib/axios';
+import { useRouter } from 'next/navigation';
 
 const validationSchema = Yup.object({
   gender: Yup.string().required('Gender is required.'),
@@ -39,6 +40,7 @@ const OnboardingParents: React.FC<OnboardingParentProps> = ({ userId }) => {
     file: null,
     imgURL: null,
   });
+  const router = useRouter();
   const handleGetImage = (event: React.BaseSyntheticEvent) => {
     let reader = new FileReader();
     let file = event.target.files[0];
@@ -82,8 +84,11 @@ const OnboardingParents: React.FC<OnboardingParentProps> = ({ userId }) => {
                   .then(async (resp) => {
                     data.profilePic = resp.data;
                     await axios
-                      .post(`/parent/${userId}/profile/`)
-                      .then((res) => console.log(res));
+                      .post(`/parent/${userId}/profile/`, data)
+                      .then((res) => {
+                        router.push('/dashboard');
+                        console.log(res);
+                      });
                   })
                   .catch((err) => console.log(err));
               }

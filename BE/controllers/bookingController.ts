@@ -49,6 +49,17 @@ class BookingController {
       },
     });
   }
+  async getBookingByOwner(data: { parentId: string }) {
+    return await prisma.booking.findMany({
+      where: {
+        parentId: data.parentId,
+      },
+      include: {
+        Parent: true,
+        proposal: true,
+      },
+    });
+  }
 
   //getBooking By ExperianceLevel
   async getBookingByExperiance(data: { experiance: Experiance }) {
@@ -59,7 +70,7 @@ class BookingController {
     });
   }
 
-  async getBookingByNumberOfChiled(data: {numberChiled: string}) {
+  async getBookingByNumberOfChiled(data: { numberChiled: string }) {
     const book = await prisma.booking.findMany({
       where: {
         numberChiled: {

@@ -9,8 +9,9 @@ import { VscSignOut } from 'react-icons/vsc';
 import { CgProfile } from 'react-icons/cg';
 import { LuSettings } from 'react-icons/lu';
 import { twmesh } from '@/utils/twmesh';
+import { AccessJwt } from '@/types/types';
 
-const SittersHeader = () => {
+const SittersHeader = ({ userInfo }: { userInfo: AccessJwt }) => {
   const { data: session, status } = useSession();
   // console.log(session, status);
   const current_path = usePathname();
@@ -124,20 +125,20 @@ const SittersHeader = () => {
                   <div className="py-3 px-5 -m-2 bg-gray-100 rounded-t-lg">
                     <p className="text-sm text-gray-500">Signed in as</p>
                     <p className="text-sm font-medium text-gray-800">
-                      james@site.com
+                      {userInfo.email}
                     </p>
                   </div>
                   <div className="mt-2 py-2 first:pt-0 last:pb-0">
                     <a
                       className="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500"
-                      href="#"
+                      href="/dashboard/profile"
                     >
                       <CgProfile fontSize={22} />
                       Profile
                     </a>
                     <a
                       className="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500"
-                      href="#"
+                      href="/dashboard/settings"
                     >
                       <LuSettings fontSize={22} />
                       Settings

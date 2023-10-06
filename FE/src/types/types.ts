@@ -6,6 +6,29 @@ type Draft = {
   email: string;
   createdAt: Date;
 };
+export type Role = 'Parent' | 'Sitter';
+export type AccessJwt = {
+  userId: string;
+  email: string;
+  role: Role;
+  iat: number | string;
+  exp: number | string;
+};
+
+export type Books = {
+  id: string;
+  datefrom: string;
+  dateTo: string;
+  numberChiled: string;
+  cord: string;
+  description: string;
+  experiance: string;
+  createdAt: string;
+  updatedAt: string;
+  parentId: string;
+};
+
+export type JobBooks = Readonly<Books>;
 
 type Prettify<T> = {
   [K in keyof T]: T[K];

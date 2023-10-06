@@ -1,3 +1,4 @@
+import { JobBooks } from '@/types/types';
 import JobListing from './JobListing';
 
 const Typography =
@@ -6,17 +7,31 @@ const Typography =
               tempore culpa reiciendis. Culpa magni quasi dolorum praesentium\
               animi reprehenderit cumque rem!';
 
-const Findjob = () => {
+async function getJobs() {
+  const res = await fetch('http://localhost:5000/api/v1/booking/books');
+  // The return value is *not* serialized
+  // You can return Date, Map, Set, etc.
+
+  if (!res.ok) {
+    // This will activate the closest `error.js` Error Boundary
+    throw new Error('Failed to fetch data');
+  }
+
+  return res.json();
+}
+
+const Findjob = async () => {
+  const bookings = (await getJobs()) as JobBooks[];
   return (
     <div className="relative">
       <div className="space-y-4 max-w-[50rem] bg-white p-4 rounded-md w-full mx-auto justify-center items-center">
-        {[1, 2, 3, 4, 5].map((_, idx) => (
-          <JobListing key={idx} Typography={Typography} />
+        {bookings.map((booking, idx) => (
+          <JobListing key={idx} Typography={Typography} jobListings={booking} />
         ))}
-        JobViewModal
+        {/* JobViewModal */}
       </div>
     </div>
   );
 };
-
+// ;
 export default Findjob;
