@@ -15,12 +15,27 @@ export type AccessJwt = {
   exp: number | string;
 };
 
+export type CurrentJobPostType = {
+  id: string;
+  timeLong: string;
+  location: string;
+  title: string;
+  description: string;
+  numberChiled: number;
+  experiance: string;
+  createdAt: string;
+  updatedAt: string;
+  parentId: string;
+  // Parent: null;
+  // proposal: [];
+};
+
 export type Books = {
   id: string;
-  datefrom: string;
-  dateTo: string;
+  timeLong: string;
   numberChiled: string;
-  cord: string;
+  location: string;
+  title: string;
   description: string;
   experiance: string;
   createdAt: string;

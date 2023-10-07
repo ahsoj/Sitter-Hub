@@ -21,7 +21,7 @@ const ParentsHeader = ({ userInfo }: { userInfo: AccessJwt }) => {
     },
     {
       label: 'New Job',
-      path: '/dashboard/new_job',
+      path: `/dashboard/new_job/${userInfo.userId}`,
       icon: <IoCreateOutline fontSize={22} />,
     },
     {

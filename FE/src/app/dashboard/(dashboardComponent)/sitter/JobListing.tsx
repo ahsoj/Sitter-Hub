@@ -30,23 +30,23 @@ const JobListing = ({ Typography, jobListings }: JobListingProps) => {
         <br />
         <button onClick={handleJobViewOpened}>
           <h1 className="text-gray-600 hover:underline group-hover/jobpost:text-indigo-500">
-            {jobListings.description}
+            {jobListings.title}
           </h1>
         </button>
         <h4 className="text-sm text-gray-600 font-medium">
           {`Number of childs: ${jobListings.numberChiled}`}
         </h4>
-        {/* <p className="text-gray-500 text-sm">
-          {Typography}
-          <button
+        <p className="text-gray-500 text-sm">
+          {jobListings.description}
+          {/* <button
             className={twmesh(
               'text-xs text-brand hidden ml-2',
-              Typography.length >= 200 && 'flex'
+              jobListings.description.length >= 200 && 'flex'
             )}
           >
             ...see more
-          </button>
-        </p> */}
+          </button> */}
+        </p>
         <span className="text-sm flex items-center gap-1 text-gray-600">
           <VscVerifiedFilled className="text-brand text-lg" /> Verified . posted
           <span className="px-1 text-xs text-slate-600">
@@ -56,15 +56,19 @@ const JobListing = ({ Typography, jobListings }: JobListingProps) => {
         <div className="flex items-center flex-wrap gap-x-4 gap-y-1">
           <div className="whitespace-nowrap">
             <span className="text-gray-400 text-xs">Location:</span>{' '}
-            <span className="text-xs text-gray-600">Addis abeba</span>
+            <span className="text-xs text-gray-600">
+              {jobListings.location}
+            </span>
           </div>
           <div className="whitespace-nowrap">
-            <span className="text-gray-400 text-xs">Industry:</span>{' '}
-            <span className="text-xs text-gray-600">Digital Marketplace</span>
+            <span className="text-gray-400 text-xs">Time Long:</span>{' '}
+            <span className="text-xs text-gray-600">
+              {jobListings.timeLong}
+            </span>
           </div>
           <div className="whitespace-nowrap">
             <span className="text-gray-400 text-xs">Salary:</span>{' '}
-            <span className="text-xs text-gray-600">$64/hour</span>
+            <span className="text-xs text-gray-600">$99/day</span>
           </div>
         </div>
       </div>

@@ -1,4 +1,7 @@
+import axios from '@/lib/axios';
 import React from 'react';
+import TableComponent from '../(table)/tableComponent';
+import { CurrentJobPostType } from '@/types/types';
 
 async function myCurrentJobs({ slug }: { slug: string }) {
   const res = await fetch(
@@ -16,9 +19,21 @@ async function myCurrentJobs({ slug }: { slug: string }) {
 }
 
 const CurrentOpen = async ({ params }: { params: { slug: string } }) => {
-  const current_job = await myCurrentJobs(params);
-  console.log(current_job);
-  return <div>Currently Opened Jobs (2)</div>;
+  const current_job = (await myCurrentJobs(params)) as CurrentJobPostType[];
+
+  return (
+    <div className="mx-auto justify-center max-w-[70rem]">
+      <div className="flex flex-col">
+        <div className="-m-1.5 overflow-x-auto">
+          <div className="p-1.5 min-w-full inline-block align-middle">
+            <div className="overflow-hidden">
+              <TableComponent current_job={current_job} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default CurrentOpen;

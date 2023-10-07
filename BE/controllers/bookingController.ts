@@ -4,24 +4,24 @@ import { Experiance } from '../types/types';
 class BookingController {
   //create a new booking
   async createBooking(data: {
-    datefrom: Date;
-    dateTo: Date;
+    timeLong: string;
     numberChiled: number;
-    cord: string;
+    location: string;
+    title: string;
     description: string;
+    parentId: string;
     experiance: Experiance;
-    // parentId: string;
   }) {
     console.log(data.experiance);
     const booking = await prisma.booking.create({
       data: {
-        datefrom: data.datefrom,
-        dateTo: data.dateTo,
-        numberChiled: data.numberChiled,
-        cord: data.cord,
+        timeLong: data.timeLong,
+        title: data.title,
+        numberChiled: Number(data.numberChiled),
+        location: data.location,
         description: data.description,
         experiance: data.experiance,
-        // parentId: data.parentId,
+        parentId: data.parentId,
       },
     });
     console.log(`Created Booking with ID ${booking.id}`);
@@ -33,6 +33,14 @@ class BookingController {
     return await prisma.booking.findMany({
       include: {
         proposal: false,
+      },
+    });
+  }
+
+  async deleteBookingById(data: { bookId: string }) {
+    return await prisma.booking.delete({
+      where: {
+        id: data.bookId,
       },
     });
   }

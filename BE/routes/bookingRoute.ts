@@ -8,8 +8,12 @@ const bookingController = new BookingController();
 
 router.post('/create_book', async (req, res) => {
   try {
-    const { datefrom, dateTo, numberChiled, cord, description } = req.body;
-    //  const parentId = req.body.parentId
+    const { timeLong, numberChiled, location, title, description } = req.body;
+
+    if (!(timeLong || numberChiled || location || title || description)) {
+      return res.status(400).send('Required Fields Must be filled !');
+    }
+    const parentId = req.body.parentId;
     let experiance = req.body.experiance;
     if (experiance === 'Entry') {
       experiance = Experiance.Entry;
@@ -19,13 +23,13 @@ router.post('/create_book', async (req, res) => {
       experiance = Experiance.Expert;
     }
     const booking = await bookingController.createBooking({
-      datefrom,
-      dateTo,
+      timeLong,
       numberChiled,
-      cord,
+      location,
+      title,
       description,
       experiance,
-      // parentId
+      parentId,
     });
     res.status(201).send(booking);
   } catch (error) {
@@ -44,6 +48,17 @@ router.get('/books', async (req, res) => {
   }
 });
 
+router.delete('/delete_book/:bookId', async (req, res) => {
+  try {
+    const { bookId } = req.params;
+    await bookingController.deleteBookingById({ bookId });
+    res.status(200).send('Deleted Successfully');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('no such booking!');
+  }
+});
+
 router.get('/book/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -54,6 +69,7 @@ router.get('/book/:id', async (req, res) => {
     res.status(500).send('no such booking!');
   }
 });
+
 router.get('/current_book/:parentId', async (req, res) => {
   try {
     const { parentId } = req.params;
